@@ -1,18 +1,33 @@
-@prefix : <http://fairness_ontology.com/> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix owl:   <http://www.w3.org/2002/07/owl#> .
-@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
-@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
-@prefix dc:    <http://purl.org/dc/elements/1.1/> .
-# @prefix dct:   <http://purl.org/dc/terms/> .
-# @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
-# @prefix schema: <http://schema.org/> .
-# @prefix voaf:  <http://purl.org/vocommons/voaf#> .
-# @prefix vann:  <http://purl.org/vocab/vann/> .
-@prefix fmo: <https://purl.org/twc/fmo#> .
-@prefix resource: <http://semanticscience.org/resource/> .
-@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix : <http://fairness_ontology.com/>
+.
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+.
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+.
+@prefix owl:   <http://www.w3.org/2002/07/owl#>
+.
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#>
+.
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#>
+.
+@prefix dc:    <http://purl.org/dc/elements/1.1/>
+.
+# @prefix dct:   <http://purl.org/dc/terms/>
+.
+# @prefix foaf:  <http://xmlns.com/foaf/0.1/>
+.
+# @prefix schema: <http://schema.org/>
+.
+# @prefix voaf:  <http://purl.org/vocommons/voaf#>
+.
+# @prefix vann:  <http://purl.org/vocab/vann/>
+.
+@prefix fmo: <https://purl.org/twc/fmo#>
+.
+@prefix resource: <http://semanticscience.org/resource/>
+.
+@prefix obo: <http://purl.obolibrary.org/obo/>
+.
 
 # --- Classes ---
 
@@ -26,13 +41,93 @@ resource:SIO_000006 a owl:Class ;
     rdfs:label "process"@en ;
 .
 
+:hasAntonym a rdf:Property, owl:AnnotationProperty ;
+    rdfs:label "has antonym"@en ;
+    rdfs:comment "Relates a concept to its antonym, given as a string or URI."@en .
+
 # --- Bias ---
 
 fmo:bias a owl:Class ;
     rdfs:subClassOf obo:IAO_0000030 , owl:Thing ;
     dc:source "https://www.lexico.com/en/definition/bias"^^xsd:anyURI ;
     rdfs:label "bias"@en ;
-    skos:definition "Prejudice in favor of or against one thing, person, or group compared with another, usually in a way considered to be unfair."@en ;
+    skos:definition "Predisposition in favor of or against one thing, person, or group compared with another, usually in a way considered to be unfair."@en ;
+.
+
+## --- Bias Lev. 1 ---
+
+:HistoricalBias a owl:Class ;
+    rdfs:subClassOf fmo:bias ;
+    dc:source "https://doi.org/10.1145/3457607"^^xsd:anyURI ;
+    rdfs:label "historical bias"@en ;
+    skos:definition "Historical bias is caused by already existing bias and socio-technical issues in the world, and can seep into from the data generation process even given a perfect sampling and feature selection."@en
+.
+
+:RepresentationBias a owl:Class ;
+    rdfs:subClassOf fmo:bias ;
+    dc:source "https://doi.org/10.1145/3457607"^^xsd:anyURI ;
+    rdfs:label "representation bias"@en ;
+    skos:definition "Representation bias arises from the use of a skewed or otherwise non-representative sample from a population during data collection process."@en
+.
+
+:IntersectionalBias a owl:Class ;
+    rdfs:subClassOf fmo:bias ;
+    dc:source "https://doi.org/10.1145/3468507.3468511"^^xsd:anyURI ;
+    rdfs:label "intersectional bias"@en ;
+    skos:definition "Intersectional bias is a type of bias that occurs due to the combination of multiple sensitive factors."@en
+.
+
+:AlgorithmicBias a owl:Class ;
+    rdfs:subClassOf fmo:bias ;
+    dc:source "https://doi.org/10.1145/3457607"^^xsd:anyURI ;
+    rdfs:label "algorithmic bias"@en ;
+    skos:definition "Algorithmic bias is when the bias is not present in the input data and is added purely by the algorithm."@en
+.
+
+:OmmittedVariableBias a owl:Class ;
+    rdfs:subClassOf fmo:bias ;
+    dc:source "https://doi.org/10.1145/3457607"^^xsd:anyURI ;
+    rdfs:label "omitted variable bias"@en ;
+    skos:definition "Omitted variable bias occurs when one or more important variables are left out of a model."@en
+.
+
+:MaskingBias a owl:Class ;
+    rdfs:subClassOf fmo:bias ;
+    dc:source "https://doi.org/10.1145/3468507.3468511"^^xsd:anyURI ;
+    rdfs:label "masking bias"@en ;
+    skos:definition "Masking is a form of intentional discrimination that allows decision makers with prejudicial views to mask their intentions, typically by exploiting how fairness notions are defined."@en
+.
+
+:SamplingBias a owl:Class ;
+    rdfs:subClassOf fmo:bias ;
+    dc:source "https://doi.org/10.1145/3457607"^^xsd:anyURI ;
+    rdfs:label "sampling bias"@en ;
+    skos:definition "Similarly to representation bias, sampling bias arises due to non-random sampling of subgroups"@en
+.
+
+## --- Bias Lev. 2 ---
+
+:LinguisticBias  a owl:Class ;
+    rdfs:subClassOf :AlgorithmicBias ;
+    rdfs:label "linguistic bias"@en ;
+    skos:definition "Linguistic bias is embedded in generative AI outputs, the manifestation of harm through demeaning or offensive language that reinforces discrimination."@en;
+.
+
+## --- Bias Individuals ---
+
+:Prejudice a :HistoricalBias ;
+    rdfs:label "prejudice"@en ;
+    skos:definition "Prejudice is a latent human or cultural construct and represents historical predispositions to discrimination."@en ;
+.
+
+:Stereotype a :RepresentationBias ;
+    rdfs:label "stereotype"@en ;
+    skos:definition "A simplified and generalized representation of a group (e.g., “women are nurses,” “men are engineers”) that operationalizes discrimination in communication, media, or data."@en ;
+.
+
+:Disparagement a :LinguisticBias, :RepresentationBias ;
+    rdfs:label "disparagement"@en ;
+    skos:definition "Disparagement is not merely bias in representation but bias in expression, it is the linguistic realization of stereotype."@en ;
 .
 
 # --- Notions ---
@@ -50,8 +145,10 @@ fmo:fairness_notion a owl:Class ;
         owl:someValuesFrom fmo:worldview
     ] ;
     dc:source "https://doi.org/10.1145/3468507.3468511"^^xsd:anyURI ;
-    resource:hasSynonym "criterion"@en ;
     rdfs:label "fairness notion"@en ;
+    resource:hasSynonym "criterion"@en ;
+    resource:hasSynonym "fairness"@en ;
+    :hasAntonym "discrimination"@en ;
     skos:definition "A formal definition of fairness that can be observed as a property of a predictive model, in relation to that model's treatment of different cohorts."@en ;
 .
 
@@ -155,7 +252,8 @@ fmo:fairness_notion a owl:Class ;
 #     dc:source "https://doi.org/10.1145/3468507.3468511"^^xsd:anyURI ;
 #     rdfs:label "fairness metric"@en ;
 #     skos:definition "A measurement of some fairness notion in a machine-learning model or dataset, with regards to some specific cohort(s)."@en ;
-# .
+#
+.
 
 fmo:fairness_metric a owl:Class ;
     rdfs:subClassOf fmo:evaluation_metric ;
@@ -177,11 +275,12 @@ fmo:fairness_metric a owl:Class ;
     dc:source "https://doi.org/10.1145/3468507.3468511"^^xsd:anyURI ;
     rdfs:label "fairness metric"@en ;
     skos:definition "A measurement of some fairness notion in a machine-learning model or dataset, with regards to some specific cohort(s)."@en ;
-    fmo:tag "hide" .
+    fmo:tag "hide" ;
+.
 
 
 
-## --- Metrics Lev. 1---
+## --- Metrics Standard ML ---
 
 :ParityBasedFairnessMetric a owl:Class ;
     rdfs:subClassOf fmo:fairness_metric ;
@@ -195,7 +294,7 @@ fmo:fairness_metric a owl:Class ;
     # dc:source ""^^xsd:anyURI ;
     rdfs:label "confusion matrix-based fairness metric"@en ;
     skos:definition "A measurement of any fairness notion, focusing on the amount of
-correct/incorrect classifications inferred by the predictor.."@en ;
+correct/incorrect classifications inferred by the predictor."@en ;
 .
 
 :ScoreBasedFairnessMetric a owl:Class ;
@@ -214,87 +313,114 @@ correct/incorrect classifications inferred by the predictor.."@en ;
 
 ## --- Metrics LLMs ---
 
-# EmbeddingBasedFairnessMetric
+### EmbeddingBasedFairnessMetric
 :EmbeddingBasedFairnessMetric a owl:Class ;
     rdfs:subClassOf fmo:fairness_metric ;
     rdfs:label "embedding-based fairness metric"@en ;
-    skos:definition "A fairness metric that evaluates bias or fairness using representations derived from word or sentence embeddings."@en .
+    skos:definition "A fairness metric that evaluates bias or fairness using representations derived from word or sentence embeddings."@en
+.
 
 :WordEmbeddingFairnessMetric a owl:Class ;
     rdfs:subClassOf :EmbeddingBasedFairnessMetric ;
     rdfs:label "word embedding fairness metric"@en ;
-    skos:definition "A metric that leverages word vector representations to assess fairness or bias in language models or datasets."@en .
-
+    skos:definition "A metric that leverages word vector representations to assess fairness or bias in language models or datasets."@en
+.
 :SentenceEmbeddingFairnessMetric a owl:Class ;
     rdfs:subClassOf :EmbeddingBasedFairnessMetric ;
     rdfs:label "sentence embedding fairness metric"@en ;
-    skos:definition "A metric using sentence-level embedding representations as the basis for evaluating model or data fairness."@en .
+    skos:definition "A metric using sentence-level embedding representations as the basis for evaluating model or data fairness."@en
+.
 
-# ProbabilityBasedFairnessMetric
+### ProbabilityBasedFairnessMetric
 :ProbabilityBasedFairnessMetric a owl:Class ;
     rdfs:subClassOf fmo:fairness_metric ;
     rdfs:label "probability-based fairness metric"@en ;
-    skos:definition "A metric that considers the probability distributions of predicted outcomes to measure fairness."@en .
-
+    skos:definition "A metric that considers the probability distributions of predicted outcomes to measure fairness."@en
+.
 :MaskedTokenFairnessMetric a owl:Class ;
     rdfs:subClassOf :ProbabilityBasedFairnessMetric ;
     rdfs:label "masked token fairness metric"@en ;
-    skos:definition "A fairness metric relying on the predicted probabilities for masked tokens in language models."@en .
-
+    skos:definition "A fairness metric relying on the predicted probabilities for masked tokens in language models."@en
+.
 :PseudoLogLikelihoodFairnessMetric a owl:Class ;
     rdfs:subClassOf :ProbabilityBasedFairnessMetric ;
     rdfs:label "pseudo-log likelihood fairness metric"@en ;
-    skos:definition "A metric based on pseudo-log likelihoods, often used to evaluate the fairness of generation or prediction probabilities."@en .
+    skos:definition "A metric based on pseudo-log likelihoods, often used to evaluate the fairness of generation or prediction probabilities."@en
+.
 
-# GeneratedTextBasedFairnessMetric
+### GeneratedTextBasedFairnessMetric
 :GeneratedTextBasedFairnessMetric a owl:Class ;
     rdfs:subClassOf fmo:fairness_metric ;
     rdfs:label "generated text-based fairness metric"@en ;
-    skos:definition "A metric that measures fairness by analyzing or scoring generated text outputs."@en .
-
+    skos:definition "A metric that measures fairness by analyzing or scoring generated text outputs."@en
+.
 :DistributionFairnessMetric a owl:Class ;
     rdfs:subClassOf :GeneratedTextBasedFairnessMetric ;
     rdfs:label "distribution fairness metric"@en ;
-    skos:definition "A metric that evaluates fairness by comparing the statistical distribution of generated outputs across groups."@en .
-
+    skos:definition "A metric that evaluates fairness by comparing the statistical distribution of generated outputs across groups."@en
+.
 :ClassifierFairnessMetric a owl:Class ;
     rdfs:subClassOf :GeneratedTextBasedFairnessMetric ;
     rdfs:label "classifier fairness metric"@en ;
-    skos:definition "A metric that employs a classifier on generated text to assess the presence of bias or fairness."@en .
-
+    skos:definition "A metric that employs a classifier on generated text to assess the presence of bias or fairness."@en
+.
 :LexiconFairnessMetric a owl:Class ;
     rdfs:subClassOf :GeneratedTextBasedFairnessMetric ;
     rdfs:label "lexicon fairness metric"@en ;
-    skos:definition "A metric that uses predefined lexicons to study fairness or bias in generated textual content."@en .
-## --- ML model evaluation---
+    skos:definition "A metric that uses predefined lexicons to study fairness or bias in generated textual content."@en
+.
 
-fmo:machine_learning_model_evaluation a owl:Class ;
-    rdfs:subClassOf obo:IAO_0000030 ,
-                    resource:SIO_000006 ,
-                    owl:Thing ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty resource:SIO_000229 ;
-        owl:someValuesFrom fmo:evaluation_metric
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty resource:SIO_000230 ;
-        owl:someValuesFrom fmo:dataset_cohort
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty resource:SIO_000230 ;
-        owl:someValuesFrom fmo:evaluation_metric
-    ] ;
-    rdfs:subClassOf [
-        a owl:Restriction ;
-        owl:onProperty resource:SIO_000230 ;
-        owl:someValuesFrom fmo:testing_dataset
-    ] ;
-    dc:source "https://isbndb.com/book/9780521766333"^^xsd:anyURI ;
-    rdfs:label "ML model evaluation"@en ;
-    skos:definition "An evaluation of a specific machine learning model on a set of dataset cohorts."@en ;
+## --- Social Principles ---
+
+:SocialPrinciple a owl:Class ;
+    rdfs:label "Social Principle"@en ;
+    skos:definition "Ethical and contextual interpretation of fairness, informing notions."@en ;
+.
+
+### --- Social Principles Individuals ---
+
+:EquityPrinciple a :SocialPrinciple ;
+    rdfs:label "equity"@en ;
+    skos:definition "Equity is providing different resources based on individual needs to ensure everyone has an equal outcome."@en ;
+.
+
+:EquilityPrincipal a :SocialPrinciple ; 
+    rdfs:label "equility"@en ;
+    skos:definition "Equality is giving everyone the same resources and opportunities."@en ;
+.
+
+## --- ML model evaluation ---
+
+:MachineLearningEvaluation a owl:Class ;
+    rdfs:subClassOf fmo:machine_learning_evaluation ; 
+    rdfs:label "ML evaluation"@en ;
+    skos:definition "An evaluation of a specific machine learning model or a dataset."@en ;
+    # rdfs:subClassOf obo:IAO_0000030 ,
+    #                 resource:SIO_000006 ,
+    #                 owl:Thing ;
+    # rdfs:subClassOf [
+    #     a owl:Restriction ;
+    #     owl:onProperty resource:SIO_000229 ;
+    #     owl:someValuesFrom fmo:evaluation_metric
+    # ] ;
+    # rdfs:subClassOf [
+    #     a owl:Restriction ;
+    #     owl:onProperty resource:SIO_000230 ;
+    #     owl:someValuesFrom fmo:dataset_cohort
+    # ] ;
+    # rdfs:subClassOf [
+    #     a owl:Restriction ;
+    #     owl:onProperty resource:SIO_000230 ;
+    #     owl:someValuesFrom fmo:evaluation_metric
+    # ] ;
+    # rdfs:subClassOf [
+    #     a owl:Restriction ;
+    #     owl:onProperty resource:SIO_000230 ;
+    #     owl:someValuesFrom fmo:testing_dataset
+    # ] ;
+    # dc:source "https://isbndb.com/book/9780521766333"^^xsd:anyURI ;
+    # rdfs:label "ML model evaluation"@en ;
+    # skos:definition "An evaluation of a specific machine learning model on a set of dataset cohorts."@en ;
 .
 
 # --- Tasks ---
@@ -363,22 +489,35 @@ fmo:machine_learning_model_evaluation a owl:Class ;
 
 # --- ObjectProperties ---
 
-## --- Metrics and Notions ---
-
-:enforces a owl:ObjectProperty ;
-    # rdfs:subPropertyOf somethingFromExistingOntologies ;
-    rdfs:label "enforces"@en ;
-    rdfs:domain fmo:fairness_metric ;
-    rdfs:range fmo:fairness_notion ;
-    skos:definition "A fairness metric enforces some fairness notion if comparisons made with the given metric are a valid way to determine fairness with this notion."@en ;
+:isGuidedBy a owl:ObjectProperty ;
+    rdfs:domain :FairnessNotion ;
+    rdfs:range :SocialPrinciple ;
+    rdfs:label "is guided by"@en ;
+    rdfs:comment "Links a fairness notion to its underpinning social principle such as equity or equality."@en ;
+.
+:Guides a owl:ObjectProperty ;
+    rdfs:domain :SocialPrinciple ;
+    rdfs:range :FairnessNotion ;
+    rdfs:label "guides"@en ;
+    rdfs:comment "Links a fairness notion to its underpinning social principle such as equity or equality."@en ;
 .
 
-:isEnforcedBy a owl:ObjectProperty ;
+## --- Metrics and Notions ---
+
+:measures a owl:ObjectProperty ;
     # rdfs:subPropertyOf somethingFromExistingOntologies ;
-    rdfs:label "is enforced by"@en ;
+    rdfs:label "measures"@en ;
+    rdfs:domain fmo:fairness_metric ;
+    rdfs:range fmo:fairness_notion ;
+    skos:definition "A fairness metric measures some fairness notion if comparisons made with the given metric are a valid way to determine fairness with this notion."@en ;
+.
+
+:isMeasuredBy a owl:ObjectProperty ;
+    # rdfs:subPropertyOf somethingFromExistingOntologies ;
+    rdfs:label "is measured by"@en ;
     rdfs:domain fmo:fairness_notion ;
     rdfs:range fmo:fairness_metric ;
-    skos:definition "A fairness notion is enforced by a fairness metric if comparisons made with the given metric are a valid way to determine fairness with this notion."@en ;
+    skos:definition "A fairness notion is measured by a fairness metric if comparisons made with the given metric are a valid way to determine fairness with this notion."@en ;
 .
 
 ## --- Notions and Biases ---
@@ -402,7 +541,7 @@ fmo:machine_learning_model_evaluation a owl:Class ;
 :produces a owl:ObjectProperty ;
     rdfs:subPropertyOf resource:SIO_000215 ;
     rdfs:label "is measurement value of"@en ;
-    rdfs:domain fmo:machine_learning_model_evaluation ;
+    rdfs:domain :MachineLearningEvaluation ;
     rdfs:range fmo:evaluation_metric ;
     skos:definition "A certain model evaluation produces a certain value w.r.t. a specific metric."@en ;
 .
@@ -429,20 +568,12 @@ fmo:machine_learning_model_evaluation a owl:Class ;
 
 ## --- Scientidic Papers and Notions and Metrics---
 
-:notionEquivalentTo a owl:ObjectProperty ;
+:isEquivalentTo a owl:ObjectProperty ;
     # rdfs:subPropertyOf somethingFromExistingOntologies ;
     rdfs:label "is equivalent to"@en ;
-    rdfs:domain fmo:fairness_notion ;
-    rdfs:range fmo:fairness_notion ;
+    rdfs:domain fmo:ScientificArtifact ;
+    rdfs:range fmo:ScientificArtifact ;
     skos:definition "A certain fairness notion can be equal to some other fairness notions."@en ;
-.
-
-:metricEquivalentTo a owl:ObjectProperty ;
-    # rdfs:subPropertyOf somethingFromExistingOntologies ;
-    rdfs:label "is equivalent to"@en ;
-    rdfs:domain fmo:fairness_metric ;
-    rdfs:range fmo:fairness_metric ;
-    skos:definition "A certain fairness metric can be equal to some other fairness notions."@en ;
 .
 
 :IsProposedBy a owl:ObjectProperty ;
@@ -520,7 +651,7 @@ resource:SIO_000668 a owl:ObjectProperty ;
 
 :hasValue a owl:DatatypeProperty ;
     rdfs:label "has value"@en ;
-    rdfs:domain fmo:machine_learning_model_evaluation ;
+    rdfs:domain :MachineLearningEvaluation ;
     rdfs:range xsd:float ;
 .
 
@@ -531,8 +662,10 @@ resource:SIO_000668 a owl:ObjectProperty ;
 :Classification a :SupervisedLearingTask ;
 .
 :Regression a :SupervisedLearingTask ;
+
 .
 :Clustering a :UnsupervisedLearningTask ;
+
 .
 :ChatbotInteraction a :NaturalLanguageProcessingTask ;
 .
@@ -681,7 +814,7 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isUsedBy :2018Yona ;
     :isUsedBy :2020Yurochkin ;
     :isUsedBy :2019Lahoti ;
-    :notionEquivalentTo :IndividualFairness;
+    :isEquivalentTo :IndividualFairness;
 .
 
 :IndividualFairness a :IndividualFairnessNotion, :ObservationalFairnessNotion, :ScientificArtifact ;
@@ -695,11 +828,11 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isUsedBy :2018Yona ;
     :isUsedBy :2020Yurochkin ;
     :isUsedBy :2019Lahoti ;
-    :notionEquivalentTo :FairnessThroughAwareness ;
+    :isEquivalentTo :FairnessThroughAwareness ;
 .
 
 :StatisticalParity a :ObservationalFairnessNotion, :IndependenceFairnessNotion, :ScientificArtifact ;
-    :notionDefinition """Each group must have the same probability of being classified with the positive outcome, i.e., the fraction of predicted positive of group a should be equal to that of group b""" ;
+    :hasDefinition """Each group must have the same probability of being classified with the positive outcome, i.e., the fraction of predicted positive of group a should be equal to that of group b""" ;
     :hasBeenAppliedTo :CensusIncomePrediction ;
     :hasBeenAppliedTo :Law ;
     :hasBeenAppliedTo :CreditRisk ;
@@ -710,7 +843,8 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isProposedBy :2013Zemel ;
     :isUsedBy :2015Feldman ;
     :isUsedBy :2017CorbettDavies ;
-    :notionEquivalentTo :DemographicParity ;
+    :isEquivalentTo :DemographicParity ;
+    :isBasedOnSocialPrinciple :Equality ;
 .
 
 :DemographicParity a :ObservationalFairnessNotion, :IndependenceFairnessNotion, :ScientificArtifact ;
@@ -725,7 +859,7 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isProposedBy :2013Zemel ;
     :isUsedBy :2015Feldman ;
     :isUsedBy :2017CorbettDavies ;
-    :notionEquivalentTo :StatisticalParity ;
+    :isEquivalentTo :StatisticalParity ;
 .
 
 :ConditionalStatisticalParity a :ObservationalFairnessNotion, :IndependenceFairnessNotion, :ScientificArtifact ;
@@ -747,7 +881,7 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isSuitableFor :Classification ;
     :isSuitableFor :ChatbotInteraction ;
     :isProposedBy :2016Hardt ;
-    :notionEquivalentTo :FalseNegativeErrorBalance ;
+    :isEquivalentTo :FalseNegativeErrorBalance ;
 .
 
 :FalseNegativeErrorRateBalance a :ObservationalFairnessNotion, :SeparationFairnessNotion, :ScientificArtifact ;
@@ -758,7 +892,7 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isSuitableFor :Classification ;
     :isSuitableFor :ChatbotInteraction ;
     :isProposedBy :2017Chouldechova ;
-    :notionEquivalentTo :EqualOpportunity ;
+    :isEquivalentTo :EqualOpportunity ;
 .
 
 :ConditionalEqualOpportunity a :ObservationalFairnessNotion, :SeparationFairnessNotion, :ScientificArtifact ;
@@ -779,7 +913,7 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isSuitableFor :ChatbotInteraction ;
     :isProposedBy :2018Berk ;
     :isProposedBy :2018Vanmassenhove ;
-    :notionEquivalentTo :ConditionalProcedureAccuracyEquality ;
+    :isEquivalentTo :ConditionalProcedureAccuracyEquality ;
 .
 
 :ConditionalProcedureAccuracyEquality a :ObservationalFairnessNotion, :SeparationFairnessNotion, :ScientificArtifact ;
@@ -791,7 +925,7 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isSuitableFor :ChatbotInteraction ;
     :isProposedBy :2018Berk ;
     :isProposedBy :2018Vanmassenhove ;
-    :notionEquivalentTo :EqualizedOdds ;
+    :isEquivalentTo :EqualizedOdds ;
 .
 
 :ErrorRateBalance a :ObservationalFairnessNotion , :SeparationFairnessNotion, :ScientificArtifact ;
@@ -802,7 +936,7 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isSuitableFor :Classification ;
     :isSuitableFor :ChatbotInteraction ;
     :isProposedBy :2017Chouldechova ;
-    :notionEquivalentTo :ConditionalProcedureAccuracyEquality ;
+    :isEquivalentTo :ConditionalProcedureAccuracyEquality ;
 .
 
 :OverallAccuracyEquality a :ObservationalFairnessNotion, :SeparationFairnessNotion, :ScientificArtifact ;
@@ -839,7 +973,7 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isSuitableFor :Classification ;
     :isSuitableFor :ChatbotInteraction ;
     :isProposedBy :2016Hardt ;
-    :notionEquivalentTo :FalsePositiveErrorRateBalance ;
+    :isEquivalentTo :FalsePositiveErrorRateBalance ;
 .
 
 :FalsePositiveErrorRateBalance a :ObservationalFairnessNotion, :SeparationFairnessNotion, :ScientificArtifact ;
@@ -848,7 +982,7 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isSuitableFor :Classification ;
     :isSuitableFor :ChatbotInteraction ;
     :isProposedBy :2017Chouldechova ;
-    :notionEquivalentTo :PredictiveEquality ;
+    :isEquivalentTo :PredictiveEquality ;
 .
 
 :TestFairness a :ObservationalFairnessNotion, :SufficiencyFairnessNotion, :ScientificArtifact ;
@@ -859,8 +993,8 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isSuitableFor :Classification ;
     :isSuitableFor :ChatbotInteraction ;
     :isProposedBy :2018Verma ;
-    :notionEquivalentTo :Calibration ;
-    :notionEquivalentTo :MatchingConditionalFrequencies ;
+    :isEquivalentTo :Calibration ;
+    :isEquivalentTo :MatchingConditionalFrequencies ;
 .
 
 :Calibration a :ObservationalFairnessNotion, :SufficiencyFairnessNotion, :ScientificArtifact ;
@@ -872,8 +1006,8 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isSuitableFor :ChatbotInteraction ;
     :isProposedBy :2017Chouldechova ;
     :isProposedBy :2018Verma ;
-    :notionEquivalentTo :TestFairness ;
-    :notionEquivalentTo :MatchingConditionalFrequencies ;
+    :isEquivalentTo :TestFairness ;
+    :isEquivalentTo :MatchingConditionalFrequencies ;
 .
 
 :MatchingConditionalFrequencies a :ObservationalFairnessNotion, :SufficiencyFairnessNotion, :ScientificArtifact ;
@@ -884,8 +1018,8 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isSuitableFor :Classification ;
     :isSuitableFor :ChatbotInteraction ;
     :isProposedBy :2018Verma ;
-    :notionEquivalentTo :TestFariness ;
-    :notionEquivalentTo :Calibration ;
+    :isEquivalentTo :TestFariness ;
+    :isEquivalentTo :Calibration ;
 .
 
 :PredictiveParity a :ObservationalFairnessNotion, :SufficiencyFairnessNotion, :ScientificArtifact ;
@@ -1015,6 +1149,8 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isProposedBy :2017_Chouldechova ;
     :isProposedBy :2023_Giuliani ;
     :isUsedBy :2015_Feldman ;
+    :measures :StatisticalParity ;
+    :measures :DemographicParity ;
 .
 
 :TruePositiveRateDifference a :ScientificArtifact, :ParityBasedFairnessMetric ;
@@ -1023,7 +1159,7 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isSuitableFor :Classification ;
     :isSuitableFor :ChatbotInteraction ;
     :isProposedBy :2019_DeArteaga ;
-    :metricEquivalentTo :EqualOpportunity ;
+    :isEquivalentTo :EqualOpportunity ;
 .
 
 :OutcomeUnfairness a :ScientificArtifact, :ConfusionMatrixBasedFairnessMetric ;
@@ -1226,3 +1362,13 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isSuitableFor :ChatbotInteraction ;
     :isProposedBy :2021_DHAMALA ;
 .
+
+## Evaluations
+
+:Evaluation_0001 a :MachineLearningEvaluation ;
+    :isMeasurementValueOf :DisparateImpact ;
+    # ... dataset
+    # ... algorithm
+    :hasValue 0.82 ;
+.
+
