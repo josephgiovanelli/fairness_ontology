@@ -655,6 +655,443 @@ resource:SIO_000668 a owl:ObjectProperty ;
     rdfs:range xsd:float ;
 .
 
+### New Classes
+
+:Dataset a owl:Class ;
+    rdfs:label "Dataset"@en ;
+    skos:definition "A dataset used in machine learning."@en ;
+.    
+
+:TrainingDataset a owl:Class ;
+    rdfs:subClassOf :Dataset ;
+    rdfs:label "Training Dataset"@en ;
+.    
+
+:ValidationDataset a owl:Class ;
+    rdfs:subClassOf :Dataset ;
+    rdfs:label "Validation Dataset"@en ;
+.    
+
+:TestingDataset a owl:Class ;
+    rdfs:subClassOf :Dataset ;
+    rdfs:label "Testing Dataset"@en ;
+.    
+
+:AIModel a owl:Class ;
+    rdfs:label "AI Model"@en ;
+    skos:definition "An artificial intelligence model."@en ;
+.    
+
+:ModelEvaluation a owl:Class ;
+    rdfs:subClassOf :Evaluation ;
+    rdfs:label "Model Evaluation"@en ;
+.    
+
+:ExperimentalSetting a owl:Class ;
+    rdfs:label "Experimental Setting"@en ;
+.    
+
+:PipelineStep a owl:Class ;
+    rdfs:label "Pipeline Step"@en ;
+.    
+
+:Hyperparameter a owl:Class ;
+    rdfs:label "Hyperparameter"@en ;
+.    
+
+:HyperparameterConfiguration a owl:Class ;
+    rdfs:label "Hyperparameter Configuration"@en ;
+.    
+
+:MitigationTechnique a owl:Class ;
+    rdfs:subClassOf :PipelineStep ;
+    rdfs:label "Mitigation Technique"@en ;
+.    
+
+:LearningAlgorithm a owl:Class ;
+    rdfs:subClassOf :PipelineStep ;
+    rdfs:label "Learning Algorithm"@en ;
+.    
+
+:PreprocessingTransformation a owl:Class ;
+    rdfs:subClassOf :PipelineStep ;
+    rdfs:label "Preprocessing Transformation"@en ;
+.    
+
+:PretrainedModel a owl:Class ;
+    rdfs:subClassOf :PipelineStep ;
+    rdfs:label "Pretrained Model"@en ;
+.    
+
+:RecommendationSystemMetric a owl:Class ;
+    rdfs:subClassOf fmo:fairness_metric ;
+    rdfs:label "Recommendation System Metric"@en ;
+.    
+
+:FairnessConcern a owl:Class ;
+    rdfs:label "Fairness Concern"@en ;
+.    
+
+### Object Properties
+
+:IsAppliedTo a owl:ObjectProperty ;
+    rdfs:domain :Evaluation ;
+    rdfs:range :Dataset ;
+    rdfs:label "is applied to"@en ;
+.    
+
+:IsAbout a owl:ObjectProperty ;
+    rdfs:domain :ModelEvaluation ;
+    rdfs:range :AIModel ;
+    rdfs:label "is about"@en ;
+.    
+
+:IsTrainedOn a owl:ObjectProperty ;
+    rdfs:domain :AIModel ;
+    rdfs:range :TrainingDataset ;
+    rdfs:label "is trained on"@en ;
+.    
+
+:IsTrainedWith a owl:ObjectProperty ;
+    rdfs:domain :AIModel ;
+    rdfs:range :ExperimentalSetting ;
+    rdfs:label "is trained with"@en ;
+.    
+
+:trains a owl:ObjectProperty ;
+    rdfs:domain :ExperimentalSetting ;
+    rdfs:range :PipelineStep ;
+    rdfs:label "trains"@en ;
+.    
+
+:hasHyperparameter a owl:ObjectProperty ;
+    rdfs:domain :PipelineStep ;
+    rdfs:range :Hyperparameter ;
+    rdfs:label "has hyperparameter"@en ;
+.    
+
+:defines a owl:ObjectProperty ;
+    rdfs:domain :ExperimentalSetting ;
+    rdfs:range :HyperparameterConfiguration ;
+    rdfs:label "defines"@en ;
+.    
+
+:isInstanceOf a owl:ObjectProperty ;
+    rdfs:domain :HyperparameterConfiguration ;
+    rdfs:range :Hyperparameter ;
+    rdfs:label "is instance of"@en ;
+.    
+
+:hasBeenTestedOn a owl:ObjectProperty ;
+    rdfs:domain :PipelineStep ;
+    rdfs:range :Dataset ;
+    rdfs:label "has been tested on"@en ;
+.    
+
+:leverages a owl:ObjectProperty ;
+    rdfs:domain :PipelineStep ;
+    rdfs:range :PipelineStep ;
+    rdfs:label "leverages"@en ;
+.    
+
+:enforces a owl:ObjectProperty ;
+    rdfs:domain :MitigationTechnique ;
+    rdfs:range fmo:fairness_metric ;
+    rdfs:label "enforces"@en ;
+.    
+
+:isEnforcedBy a owl:ObjectProperty ;
+    rdfs:domain fmo:fairness_metric ;
+    rdfs:range :MitigationTechnique ;
+    rdfs:label "is enforced by"@en ;
+.    
+
+:testedOn a owl:ObjectProperty ;
+    rdfs:domain :FairnessConcern ;
+    rdfs:range :Dataset ;
+    rdfs:label "tested on"@en ;
+.    
+
+:mitigatedWith a owl:ObjectProperty ;
+    rdfs:domain :FairnessConcern ;
+    rdfs:range :MitigationTechnique ;
+    rdfs:label "mitigated with"@en ;
+.    
+
+:measuredWith a owl:ObjectProperty ;
+    rdfs:domain :FairnessConcern ;
+    rdfs:range fmo:fairness_metric ;
+    rdfs:label "measured with"@en ;
+.    
+
+:EnforcedWith a owl:ObjectProperty ;
+    rdfs:domain :FairnessConcern ;
+    rdfs:range fmo:fairness_notion ;
+    rdfs:label "enforced with"@en ;
+.    
+
+:ExposesTo a owl:ObjectProperty ;
+    rdfs:domain :FairnessConcern ;
+    rdfs:range fmo:bias ;
+    rdfs:label "exposes to"@en ;
+.    
+
+### Data Properties
+
+:datasetName a owl:DatatypeProperty ;
+    rdfs:domain :Dataset ;
+    rdfs:range xsd:string ;
+    rdfs:label "dataset name"@en ;
+.    
+
+:datasetDescription a owl:DatatypeProperty ;
+    rdfs:domain :Dataset ;
+    rdfs:range xsd:string ;
+    rdfs:label "dataset description"@en ;
+.    
+
+:modelName a owl:DatatypeProperty ;
+    rdfs:domain :AIModel ;
+    rdfs:range xsd:string ;
+    rdfs:label "model name"@en ;
+.    
+
+:modelDescription a owl:DatatypeProperty ;
+    rdfs:domain :AIModel ;
+    rdfs:range xsd:string ;
+    rdfs:label "model description"@en ;
+.    
+
+:settingName a owl:DatatypeProperty ;
+    rdfs:domain :ExperimentalSetting ;
+    rdfs:range xsd:string ;
+    rdfs:label "setting name"@en ;
+.    
+
+:settingDescription a owl:DatatypeProperty ;
+    rdfs:domain :ExperimentalSetting ;
+    rdfs:range xsd:string ;
+    rdfs:label "setting description"@en ;
+.    
+
+:hasGoal a owl:DatatypeProperty ;
+    rdfs:domain :ExperimentalSetting ;
+    rdfs:range xsd:string ;
+    rdfs:label "has goal"@en ;
+.    
+
+:hyperparameterName a owl:DatatypeProperty ;
+    rdfs:domain :Hyperparameter ;
+    rdfs:range xsd:string ;
+    rdfs:label "hyperparameter name"@en ;
+.    
+
+:hyperparameterDescription a owl:DatatypeProperty ;
+    rdfs:domain :Hyperparameter ;
+    rdfs:range xsd:string ;
+    rdfs:label "hyperparameter description"@en ;
+.    
+
+:configName a owl:DatatypeProperty ;
+    rdfs:domain :HyperparameterConfiguration ;
+    rdfs:range xsd:string ;
+    rdfs:label "configuration name"@en ;
+.    
+
+:configDescription a owl:DatatypeProperty ;
+    rdfs:domain :HyperparameterConfiguration ;
+    rdfs:range xsd:string ;
+    rdfs:label "configuration description"@en ;
+.    
+
+:configValue a owl:DatatypeProperty ;
+    rdfs:domain :HyperparameterConfiguration ;
+    rdfs:range xsd:string ;
+    rdfs:label "has value"@en ;
+.    
+
+:stepName a owl:DatatypeProperty ;
+    rdfs:domain :PipelineStep ;
+    rdfs:range xsd:string ;
+    rdfs:label "step name"@en ;
+.    
+
+:stepDescription a owl:DatatypeProperty ;
+    rdfs:domain :PipelineStep ;
+    rdfs:range xsd:string ;
+    rdfs:label "step description"@en ;
+.    
+
+:concernName a owl:DatatypeProperty ;
+    rdfs:domain :FairnessConcern ;
+    rdfs:range xsd:string ;
+    rdfs:label "concern name"@en ;
+.    
+
+:concernDescription a owl:DatatypeProperty ;
+    rdfs:domain :FairnessConcern ;
+    rdfs:range xsd:string ;
+    rdfs:label "concern description"@en ;
+.    
+
+### Subclass Hierarchies (examples)
+
+:PreprocessingMitigation a owl:Class ;
+    rdfs:subClassOf :MitigationTechnique ;
+    rdfs:label "Preprocessing Mitigation"@en ;
+.    
+:InprocessingMitigation a owl:Class ;
+    rdfs:subClassOf :MitigationTechnique ;
+    rdfs:label "Inprocessing Mitigation"@en ;
+.    
+:PostprocessingMitigation a owl:Class ;
+    rdfs:subClassOf :MitigationTechnique ;
+    rdfs:label "Postprocessing Mitigation"@en ;
+.    
+:ModelMitigation a owl:Class ;
+    rdfs:subClassOf :PostprocessingMitigation ;
+    rdfs:label "Model Mitigation"@en ;
+.    
+:OutcomeMitigation a owl:Class ;
+    rdfs:subClassOf :PostprocessingMitigation ;
+    rdfs:label "Outcome Mitigation"@en ;
+.    
+:Regularization a owl:Class ;
+    rdfs:subClassOf :InprocessingMitigation ;
+    rdfs:label "Regularization"@en ;
+.    
+:AdversarialLearning a owl:Class ;
+    rdfs:subClassOf :InprocessingMitigation ;
+    rdfs:label "Adversarial Learning"@en ;
+.    
+:ArchitectureModification a owl:Class ;
+    rdfs:subClassOf :InprocessingMitigation ;
+    rdfs:label "Architecture Modification"@en ;
+.    
+:LossFunctionModification a owl:Class ;
+    rdfs:subClassOf :InprocessingMitigation ;
+    rdfs:label "Loss Function Modification"@en ;
+.    
+:DataAugmentation a owl:Class ;
+    rdfs:subClassOf :PreprocessingMitigation ;
+    rdfs:label "Data Augmentation"@en ;
+.    
+:Resampling a owl:Class ;
+    rdfs:subClassOf :PreprocessingMitigation ;
+    rdfs:label "Resampling"@en ;
+.    
+:DataFiltering a owl:Class ;
+    rdfs:subClassOf :PreprocessingMitigation ;
+    rdfs:label "Data Filtering"@en ;
+.    
+:SelectiveReplacement a owl:Class ;
+    rdfs:subClassOf :PreprocessingMitigation ;
+    rdfs:label "Selective Replacement"@en ;
+.    
+:Reranking a owl:Class ;
+    rdfs:subClassOf :OutcomeMitigation ;
+    rdfs:label "Reranking"@en ;
+.    
+:Rewriting a owl:Class ;
+    rdfs:subClassOf :OutcomeMitigation ;
+    rdfs:label "Rewriting"@en ;
+.    
+:DecodingStrategyModification a owl:Class ;
+    rdfs:subClassOf :ModelMitigation ;
+    rdfs:label "Decoding Strategy Modification"@en ;
+.    
+:WeightRedistribution a owl:Class ;
+    rdfs:subClassOf :ModelMitigation ;
+    rdfs:label "Weight Redistribution"@en ;
+.    
+:ModularDebiasingNetwork a owl:Class ;
+    rdfs:subClassOf :ModelMitigation ;
+    rdfs:label "Modular Debiasing Network"@en ;
+.    
+:Encoding a owl:Class ;
+    rdfs:subClassOf :PreprocessingTransformation ;
+    rdfs:label "Encoding"@en ;
+.    
+:Discretization a owl:Class ;
+    rdfs:subClassOf :PreprocessingTransformation ;
+    rdfs:label "Discretization"@en ;
+.    
+:Normalization a owl:Class ;
+    rdfs:subClassOf :PreprocessingTransformation ;
+    rdfs:label "Normalization"@en ;
+.    
+:Imputation a owl:Class ;
+    rdfs:subClassOf :PreprocessingTransformation ;
+    rdfs:label "Imputation"@en ;
+.    
+:FeatureEngineering a owl:Class ;
+    rdfs:subClassOf :PreprocessingTransformation ;
+    rdfs:label "Feature Engineering"@en ;
+.    
+:Rebalancing a owl:Class ;
+    rdfs:subClassOf :PreprocessingTransformation ;
+    rdfs:label "Rebalancing"@en ;
+.    
+:LazyLearner a owl:Class ;
+    rdfs:subClassOf :LearningAlgorithm ;
+    rdfs:label "Lazy Learner"@en ;
+.    
+:EagerLearner a owl:Class ;
+    rdfs:subClassOf :LearningAlgorithm ;
+    rdfs:label "Eager Learner"@en ;
+.    
+:RuleBasedLearner a owl:Class ;
+    rdfs:subClassOf :LearningAlgorithm ;
+    rdfs:label "Rule-based Learner"@en ;
+.    
+:ConstraintBasedLearner a owl:Class ;
+    rdfs:subClassOf :LearningAlgorithm ;
+    rdfs:label "Constraint-based Learner"@en ;
+.    
+:ProbabilityBasedLearner a owl:Class ;
+    rdfs:subClassOf :LearningAlgorithm ;
+    rdfs:label "Probability-based Learner"@en ;
+.    
+:SubjectMetric a owl:Class ;
+    rdfs:subClassOf :RecommendationSystemMetric ;
+    rdfs:label "Subject Metric"@en ;
+.    
+:GranularityMetric a owl:Class ;
+    rdfs:subClassOf :RecommendationSystemMetric ;
+    rdfs:label "Granularity Metric"@en ;
+.    
+:OptimizationObjectMetric a owl:Class ;
+    rdfs:subClassOf :RecommendationSystemMetric ;
+    rdfs:label "Optimization Object Metric"@en ;
+.    
+:UserFocusedMetric a owl:Class ;
+    rdfs:subClassOf :SubjectMetric ;
+    rdfs:label "User-focused Metric"@en ;
+.    
+:ItemFocusedMetric a owl:Class ;
+    rdfs:subClassOf :SubjectMetric ;
+    rdfs:label "Item-focused Metric"@en ;
+.    
+:SingleGranularityMetric a owl:Class ;
+    rdfs:subClassOf :GranularityMetric ;
+    rdfs:label "Single Granularity Metric"@en ;
+.    
+:ArmortizedGranularityMetric a owl:Class ;
+    rdfs:subClassOf :GranularityMetric ;
+    rdfs:label "Armortized Granularity Metric"@en ;
+.    
+:TreatmentFocusedMetric a owl:Class ;
+    rdfs:subClassOf :OptimizationObjectMetric ;
+    rdfs:label "Treatment-focused Metric"@en ;
+.    
+:ImpactFocusedMetric a owl:Class ;
+    rdfs:subClassOf :OptimizationObjectMetric ;
+    rdfs:label "Impact-focused Metric"@en ;
+.           
+
+
+
+
 # --- Individuals ---
 
 ## --- Tasks ---
@@ -1361,14 +1798,5 @@ resource:SIO_000668 a owl:ObjectProperty ;
     :isSuitableFor :Classification ;
     :isSuitableFor :ChatbotInteraction ;
     :isProposedBy :2021_DHAMALA ;
-.
-
-## Evaluations
-
-:Evaluation_0001 a :MachineLearningEvaluation ;
-    :isMeasurementValueOf :DisparateImpact ;
-    # ... dataset
-    # ... algorithm
-    :hasValue 0.82 ;
 .
 
